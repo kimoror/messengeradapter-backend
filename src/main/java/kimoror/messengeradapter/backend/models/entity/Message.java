@@ -1,7 +1,5 @@
-package kimoror.messengeradapter.backend.entity;
+package kimoror.messengeradapter.backend.models.entity;
 
-import java.util.Arrays;
-import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
 @Data
+@Table(name = "message", schema = "messenger_adapter")
 public class Message {
 
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,8 +41,5 @@ public class Message {
   @Basic
   @Column(name = "proc_note", nullable = true, length = 255)
   private String procNote;
-  @ManyToOne
-  @JoinColumn(name = "bot_id", referencedColumnName = "id")
-  private Bots botsByBotId;
 
 }

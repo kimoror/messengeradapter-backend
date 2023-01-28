@@ -1,4 +1,4 @@
-package kimoror.messengeradapter.backend.entity;
+package kimoror.messengeradapter.backend.models.entity;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.Data;
-import lombok.Getter;
 
 @Entity
 @Data
@@ -31,11 +30,6 @@ public class Bots {
   @Basic
   @Column(name = "credentials", nullable = true, length = -1)
   private String credentials;
-  @ManyToOne
-  @JoinColumn(name = "messenger_id", referencedColumnName = "id")
-  private Messengers messengersByMessengerId;
-  @OneToMany(mappedBy = "botsByBotId")
-  private Collection<Message> messagesById;
 
   @Override
   public boolean equals(Object o) {

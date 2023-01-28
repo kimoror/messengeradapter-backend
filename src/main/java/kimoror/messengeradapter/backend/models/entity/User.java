@@ -1,6 +1,5 @@
-package kimoror.messengeradapter.backend.entity;
+package kimoror.messengeradapter.backend.models.entity;
 
-import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,8 +26,5 @@ public class User {
   private String fio;
   @Basic
   @Column(name = "nickname", nullable = true)
-  private Object nickname;
-  @ManyToOne
-  @JoinColumn(name = "phone_number", referencedColumnName = "to_phone_number", nullable = false)
-  private Message messageByPhoneNumber;
+  private String nickname;
 }

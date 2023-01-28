@@ -1,7 +1,6 @@
-package kimoror.messengeradapter.backend.entity;
+package kimoror.messengeradapter.backend.models.entity;
 
 import java.util.Collection;
-import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,6 +24,4 @@ public class Messengers {
   @Basic
   @Column(name = "active", nullable = true)
   private Boolean active;
-  @OneToMany(mappedBy = "messengersByMessengerId")
-  private Collection<Bots> botsById;
 }
