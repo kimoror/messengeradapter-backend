@@ -1,18 +1,18 @@
 package kimoror.messengeradapter.backend.models.entity;
 
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
 @Data
-public class Messengers {
+@Table(name = "messengers", schema = "messenger_adapter")
+public class Messenger {
 
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
@@ -24,4 +24,8 @@ public class Messengers {
   @Basic
   @Column(name = "active", nullable = true)
   private Boolean active;
+
+  @Basic
+  @Column(name = "route", nullable = false)
+  private String route;
 }
