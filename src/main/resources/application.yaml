@@ -19,3 +19,8 @@ spring:
 server:
   servlet:
     context-path: "/messenger-adapter"
+
+kimoror:
+  kafka:
+    topic:
+      status: status

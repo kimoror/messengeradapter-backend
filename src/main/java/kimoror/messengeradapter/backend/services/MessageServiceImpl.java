@@ -10,12 +10,16 @@ import kimoror.messengeradapter.backend.models.entity.Message;
 import kimoror.messengeradapter.backend.models.entity.Messenger;
 import kimoror.messengeradapter.backend.repositories.MessageRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class MessageServiceImpl implements MessageService {
 
   private final MessageRepository messageRepository;
@@ -23,11 +27,11 @@ public class MessageServiceImpl implements MessageService {
   private final MessageToOutcomeMessageMapper messageToOutcomeMessageMapper;
   private final KafkaTemplate<String, String> messageKafkaTemplate;
   private final ObjectMapper objectMapper;
-
   private final MessengerService messengerService;
   private final BotsService botsService;
-
   private final UserService userService;
+  private final String requestIdParameter = "requestId";
+  private final String statusParameter = "status";
 
   @Override
   public MessageDto processMessage(MessageDto messageDto) {
@@ -54,7 +58,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     if (StringUtils.hasText(outcomeMessage)) {
-      sendMessageToKafka(route, outcomeMessage);
+      sendMessageToKafka(route, messageDto.getRequestId(), outcomeMessage);
     } else {
       throw new RuntimeException("Outcome message is empty. The message was not sent");
     }
@@ -62,8 +66,8 @@ public class MessageServiceImpl implements MessageService {
     return messageDto;
   }
 
-  private void sendMessageToKafka(String route, String messageJson) {
-    messageKafkaTemplate.send(route, messageJson);
+  private void sendMessageToKafka(String route, String requestId, String messageJson) {
+    messageKafkaTemplate.send(route, requestId, messageJson);
   }
 
   private int save(MessageDto messageDto) {
@@ -74,8 +78,35 @@ public class MessageServiceImpl implements MessageService {
       throw new RuntimeException("Failed to convert MessageDto to message entity", e);
     }
     if (message != null) {
+      message.setStatus("RECEIVED");
       messageRepository.save(message);
     }
     return 0;
+  }
+
+  public void setMessageStatus(String statusJsonMessage) {
+    JSONObject jsonObject;
+    try {
+      jsonObject = new JSONObject(statusJsonMessage);
+    } catch (JSONException e) {
+      throw new RuntimeException(e);
+    }
+    String requestId = null;
+    String status = null;
+    try {
+      if (jsonObject.has(requestIdParameter)) {
+        requestId = String.valueOf(jsonObject.get(requestIdParameter));
+      }
+      if (jsonObject.has(statusParameter)) {
+        status = String.valueOf(jsonObject.get(statusParameter));
+      }
+    } catch (JSONException e) {
+      log.error("Error when get status message: ", e);
+    }
+    if(StringUtils.hasText(requestId) && StringUtils.hasText(status)) {
+      messageRepository.setStatusByMessageId(requestId, status);
+    } else {
+      log.error("Request id or status are empty");
+    }
   }
 }
