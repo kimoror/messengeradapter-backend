@@ -1,6 +1,8 @@
 package kimoror.messengeradapter.backend.services;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import kimoror.messengeradapter.backend.models.entity.Messenger;
 import kimoror.messengeradapter.backend.repositories.MessengerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,13 +14,12 @@ public class MessengerServiceImpl implements MessengerService {
   private final MessengerRepository messengerRepository;
 
   @Override
-  public String getRouteByBotId(int botId) {
-    Optional<String> route = messengerRepository.getRouteByBotId(botId);
-    if (route.isPresent()) {
-      return route.get();
+  public Messenger getMessengerByBotId(int botId) {
+    Optional<Messenger> messenger = messengerRepository.getMessengerByBotId(botId);
+    if (messenger.isPresent()) {
+      return messenger.get();
     } else {
-      throw new RuntimeException(
-          String.format("Route of messenger with id \"{}\" not found", botId));
+      throw new NoSuchElementException();
     }
   }
 }
