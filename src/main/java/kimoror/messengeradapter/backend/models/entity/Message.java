@@ -7,11 +7,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "message", schema = "messenger_adapter")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Message {
 
   @GeneratedValue(strategy = GenerationType.IDENTITY)
