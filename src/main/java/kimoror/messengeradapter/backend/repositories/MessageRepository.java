@@ -13,7 +13,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
   @Transactional
   @Modifying
-  @Query("UPDATE Message m SET m.status = :status where m.request_id = :messageId")
-  void setStatusByMessageId(@Param("messageId") String messageId, @Param("status") String status);
+  @Query("UPDATE Message m SET m.status = :status where m.request_id = :requestId")
+  void setStatusByRequestId(@Param("requestId") String requestId, @Param("status") String status);
 
 }

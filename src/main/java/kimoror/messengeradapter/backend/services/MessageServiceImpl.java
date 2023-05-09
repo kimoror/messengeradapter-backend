@@ -104,7 +104,7 @@ public class MessageServiceImpl implements MessageService {
       log.error("Error when get status message: ", e);
     }
     if(StringUtils.hasText(requestId) && StringUtils.hasText(status)) {
-      messageRepository.setStatusByMessageId(requestId, status);
+      messageRepository.setStatusByRequestId(requestId, status);
     } else {
       log.error("Request id or status are empty");
     }
