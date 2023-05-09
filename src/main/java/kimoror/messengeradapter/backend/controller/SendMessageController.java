@@ -19,7 +19,7 @@ public class SendMessageController {
 
   @PostMapping("/send")
   public ResponseEntity responseBody(@RequestBody MessageDto messageDto) {
-    messageService.save(messageDto);
+    messageService.processMessage(messageDto);
     return ResponseEntity.ok().build();
   }
 }

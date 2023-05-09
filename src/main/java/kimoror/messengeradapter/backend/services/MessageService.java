@@ -4,5 +4,7 @@ import kimoror.messengeradapter.backend.models.dto.MessageDto;
 
 public interface MessageService {
 
-  public int save(MessageDto messageDto);
+  MessageDto processMessage(MessageDto messageDto);
+
+  void setMessageStatus(String statusJsonMessage);
 }

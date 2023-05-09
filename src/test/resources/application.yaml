@@ -11,22 +11,13 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-    driverClassName: org.postgresql.Driver
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:postgresql
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
 
-server:
-  servlet:
-    context-path: "/messenger-adapter"
-
-management:
-  server:
-    port: 8085
-  endpoints:
-    web:
-      exposure:
-        include: "*"
 
 kimoror:
   kafka:

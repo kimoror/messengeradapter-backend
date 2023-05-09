@@ -1,6 +1,5 @@
 package kimoror.messengeradapter.backend.models.entity;
 
-import java.util.Collection;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -8,14 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-public class Bots {
+@Table(name = "bots", schema = "messenger_adapter")
+@AllArgsConstructor
+@NoArgsConstructor
+public class Bot {
 
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
@@ -39,9 +41,9 @@ public class Bots {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Bots bots = (Bots) o;
-    return id == bots.id && Objects.equals(messengerId, bots.messengerId)
-        && Objects.equals(botName, bots.botName) && Objects.equals(credentials,
-        bots.credentials);
+    Bot bot = (Bot) o;
+    return id == bot.id && Objects.equals(messengerId, bot.messengerId)
+        && Objects.equals(botName, bot.botName) && Objects.equals(credentials,
+        bot.credentials);
   }
 }
