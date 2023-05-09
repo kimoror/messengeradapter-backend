@@ -21,7 +21,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @SpringBootTest(
     classes = {BackendApplication.class}
 )
-public class MessegeRepositoryTestIT {
+public class MessageRepositoryTestIT {
 
   @Value("classpath:sql/create.sql")
   private Resource createScript;
@@ -94,7 +94,7 @@ public class MessegeRepositoryTestIT {
     //when
     messageRepository.setStatusByRequestId(request_id, "FAILED");
 
-    //verify
+    //then
     Optional<Message> resultMessage = messageRepository.findById(messageId);
     Assertions.assertEquals(expectedMessage, resultMessage.get());
 

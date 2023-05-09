@@ -64,7 +64,7 @@ public class MessengerRepositoryTestIT {
         //when
         Optional<Messenger> result = messengerRepository.getMessengerByBotId(1);
 
-        //verify
+        //then
         Assertions.assertEquals(messenger, result.get());
     }
 
